@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\DynamicQuestionnaires.Infrastruture\DynamicQuestionnaires.Infrastruture.csproj" />
   </ItemGroup>
 
 </Project>

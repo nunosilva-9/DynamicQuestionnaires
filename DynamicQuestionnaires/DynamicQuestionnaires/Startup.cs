@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using DynamicQuestionnaires.Infrastruture.Interfaces;
 using DynamicQuestionnaires.DAL.DataContext;
 using DynamicQuestionnaires.DAL.Repositories;
+using DynamicQuestionnaires.BLL.Services;
 
 namespace DynamicQuestionnaires
 {
@@ -30,9 +31,23 @@ namespace DynamicQuestionnaires
 
             services.AddMvc();
 
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             #region Services
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IQuestionnaireService, QuestionnaireService>();
+            services.AddTransient<IQuestionService, QuestionService>();
             #endregion
         }
 
@@ -50,6 +65,8 @@ namespace DynamicQuestionnaires
                 app.UseHsts();
             }
 
+            app.UseCors("MyPolicy");
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -60,6 +77,7 @@ namespace DynamicQuestionnaires
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

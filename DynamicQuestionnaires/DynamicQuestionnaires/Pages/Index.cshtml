@@ -5,6 +5,81 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+
+    <div class="card text-left">
+        <div class="card-header">
+            <h4>Questionnaires</h4>
+        </div>
+        <div class="card-body">
+            <table id="questionnaires" class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Creation Date</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td class="text-right">
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Select"><i class="fas fa-eye"></i></button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></button>
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>fat</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>twitter</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-right">
+                <button type="button" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="New Questionnaire"><i class="fas fa-plus-circle"></i> New Questionnaire</button>
+            </div>
+        </div>
+    </div>
+
+    
 </div>
+
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+
+    function loadQuestionnaires(items) {
+        const table = document.getElementById("questionnaires");
+        items.forEach(item => {
+            let row = table.insertRow();
+            let date = row.insertCell(0);
+            date.innerHTML = item.Title;
+            let name = row.insertCell(1);
+            name.innerHTML = item.CreatedDate;
+        });
+    }
+
+    $(function getQuestionnaires() {
+        return axios.get('/api/questionnaires')
+            .then(function (res) {
+                questionnaires = res.data;
+                return loadQuestionnaires(questionnaires);;
+            })
+            .catch(function (error) {
+                return Promise.reject(error);
+            });
+    });
+  
+  
+</script>

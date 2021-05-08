@@ -15,6 +15,9 @@ namespace DynamicQuestionnaires.DAL.DataContext
         {
         }
 
+
+        public virtual DbSet<Questionnaire> Questionnaires { get; set; }
+        public virtual DbSet<Answer> Answer { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
     }
 }

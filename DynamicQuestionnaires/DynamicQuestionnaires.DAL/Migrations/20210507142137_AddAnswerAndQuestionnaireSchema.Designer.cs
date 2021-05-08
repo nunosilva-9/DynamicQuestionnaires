@@ -4,14 +4,16 @@ using DynamicQuestionnaires.DAL.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DynamicQuestionnaires.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210507142137_AddAnswerAndQuestionnaireSchema")]
+    partial class AddAnswerAndQuestionnaireSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,7 +72,7 @@ namespace DynamicQuestionnaires.DAL.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("StartQuestionId")
+                    b.Property<int?>("StartQuestionId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -96,9 +98,7 @@ namespace DynamicQuestionnaires.DAL.Migrations
                 {
                     b.HasOne("DynamicQuestionnaires.Infrastruture.Entities.Question", "StartQuestion")
                         .WithMany()
-                        .HasForeignKey("StartQuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StartQuestionId");
 
                     b.Navigation("StartQuestion");
                 });

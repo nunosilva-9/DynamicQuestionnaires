@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace DynamicQuestionnaires.Infrastruture.Entities
 {
-    public class Question
+    public class Questionnaire
     {
         public int Id { get; set; }
 
-        public string Description { get; set; }
+        public string Title { get; set; }
 
-        public List<Answer> Answers { get; set; } = new List<Answer>();
+        public Question StartQuestion { get; set; }
+
+        public int StartQuestionId { get; set; }
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
     }

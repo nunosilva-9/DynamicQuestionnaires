@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 
 namespace DynamicQuestionnaires.Infrastruture.Interfaces
 {
-    public interface IUnitOfWork
+    public interface IAnswerService
     {
-        Task<bool> SaveAsync();
+        Task<bool> Create(Answer answer);
 
-        IRepository<Questionnaire> QuestionnaireRepository { get; }
+        Task<bool> Update(Answer answer);
 
-        IRepository<Question> QuestionRepository { get; }
+        Task<Answer> GetById(int id);
 
-        IRepository<Answer> AnswerRepository { get; }
+        Task<IEnumerable<Answer>> GetAll();
+
     }
 }
