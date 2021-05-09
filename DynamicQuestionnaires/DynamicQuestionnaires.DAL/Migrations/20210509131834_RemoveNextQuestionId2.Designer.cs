@@ -4,14 +4,16 @@ using DynamicQuestionnaires.DAL.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DynamicQuestionnaires.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210509131834_RemoveNextQuestionId2")]
+    partial class RemoveNextQuestionId2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,10 +34,18 @@ namespace DynamicQuestionnaires.DAL.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NextQuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NextQuestionId1")
+                        .HasColumnType("int");
+
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NextQuestionId1");
 
                     b.HasIndex("QuestionId");
 
@@ -48,6 +58,9 @@ namespace DynamicQuestionnaires.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AnswerId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -85,11 +98,17 @@ namespace DynamicQuestionnaires.DAL.Migrations
 
             modelBuilder.Entity("DynamicQuestionnaires.Infrastruture.Entities.Answer", b =>
                 {
+                    b.HasOne("DynamicQuestionnaires.Infrastruture.Entities.Question", "NextQuestion")
+                        .WithMany()
+                        .HasForeignKey("NextQuestionId1");
+
                     b.HasOne("DynamicQuestionnaires.Infrastruture.Entities.Question", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("NextQuestion");
 
                     b.Navigation("Question");
                 });

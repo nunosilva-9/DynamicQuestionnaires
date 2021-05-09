@@ -25,12 +25,12 @@ namespace DynamicQuestionnaires.BLL.Services
 
         public Task<IEnumerable<Questionnaire>> GetAll()
         {
-            return _unitOfWork.QuestionnaireRepository.Get();
+            return _unitOfWork.QuestionnaireRepository.Get(null,null, "StartQuestion,StartQuestion.Answers");
         }
 
         public async Task<Questionnaire> GetById(int id)
         {
-            IEnumerable<Questionnaire> questionnaire = await _unitOfWork.QuestionnaireRepository.Get(d => d.Id == id);
+            IEnumerable<Questionnaire> questionnaire = await _unitOfWork.QuestionnaireRepository.Get(d => d.Id == id, null, "StartQuestion");
             if (questionnaire.Count() != 1)
             {
                 return null;

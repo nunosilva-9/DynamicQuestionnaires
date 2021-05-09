@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +14,7 @@ namespace DynamicQuestionnaires.Infrastruture.Entities
 
         public string Description { get; set; }
 
-        public List<Answer> Answers { get; set; } = new List<Answer>();
+        public ICollection<Answer> Answers { get; set; } = new List<Answer>();
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
     }

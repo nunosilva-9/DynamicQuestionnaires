@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <div class="card text-left">
+        <div class="card-header">
+            <h4>New Questionnaire</h4>
+        </div>
+        <div class="card-body">
+            <form (ngSubmit)="submit()" [formGroup]="form">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" formControlName="title" name="title" id="title">
+                </div>
+                <div class="form-group">
+                    <label for="question">Question</label>
+                    <input type="text" class="form-control" formControlName="question" name="question" id="title">
+                </div>
+                <div class="form-group">
+                    <label for="answer">Answer</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" formControlName="answer" name="answer" aria-describedby="basic-addon2">
+                        <button type="button" (click)="addAnswer()" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Add Answer"><i class="fas fa-plus-circle"></i></button>
+                    </div>
+                </div>
+                <div *ngFor="let ans of answers;let indexOfelement=index;">
+                    <span>{{ans}}</span>
+                </div>
+                <button type="button" (click)="submit()" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Add Answer">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

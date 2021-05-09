@@ -30,7 +30,7 @@ namespace DynamicQuestionnaires.BLL.Services
 
         public async Task<Question> GetById(int id)
         {
-            IEnumerable<Question> question = await _unitOfWork.QuestionRepository.Get(d => d.Id == id);
+            IEnumerable<Question> question = await _unitOfWork.QuestionRepository.Get(d => d.Id == id,null,"Answers");
             if (question.Count() != 1)
             {
                 return null;

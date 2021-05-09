@@ -4,14 +4,16 @@ using DynamicQuestionnaires.DAL.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DynamicQuestionnaires.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210509020533_fixLoopQuestionsAnswer")]
+    partial class fixLoopQuestionsAnswer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,7 +34,13 @@ namespace DynamicQuestionnaires.DAL.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("QuestionId")
+                    b.Property<int?>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("followUpQuestion")
+                        .HasColumnType("int");
+
+                    b.Property<int>("prevQuestion")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -85,13 +93,9 @@ namespace DynamicQuestionnaires.DAL.Migrations
 
             modelBuilder.Entity("DynamicQuestionnaires.Infrastruture.Entities.Answer", b =>
                 {
-                    b.HasOne("DynamicQuestionnaires.Infrastruture.Entities.Question", "Question")
+                    b.HasOne("DynamicQuestionnaires.Infrastruture.Entities.Question", null)
                         .WithMany("Answers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Question");
+                        .HasForeignKey("QuestionId");
                 });
 
             modelBuilder.Entity("DynamicQuestionnaires.Infrastruture.Entities.Questionnaire", b =>

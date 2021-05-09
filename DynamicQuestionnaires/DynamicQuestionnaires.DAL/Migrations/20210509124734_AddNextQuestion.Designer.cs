@@ -4,14 +4,16 @@ using DynamicQuestionnaires.DAL.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DynamicQuestionnaires.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210509124734_AddNextQuestion")]
+    partial class AddNextQuestion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,12 +34,20 @@ namespace DynamicQuestionnaires.DAL.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NextQuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NextQuestionId1")
+                        .HasColumnType("int");
+
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuestionId");
+                    b.HasIndex("NextQuestionId");
+
+                    b.HasIndex("NextQuestionId1");
 
                     b.ToTable("Answer");
                 });
@@ -87,9 +97,15 @@ namespace DynamicQuestionnaires.DAL.Migrations
                 {
                     b.HasOne("DynamicQuestionnaires.Infrastruture.Entities.Question", "Question")
                         .WithMany("Answers")
-                        .HasForeignKey("QuestionId")
+                        .HasForeignKey("NextQuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("DynamicQuestionnaires.Infrastruture.Entities.Question", "NextQuestion")
+                        .WithMany()
+                        .HasForeignKey("NextQuestionId1");
+
+                    b.Navigation("NextQuestion");
 
                     b.Navigation("Question");
                 });

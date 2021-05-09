@@ -14,8 +14,6 @@ namespace DynamicQuestionnaires.Infrastruture.Entities
 
         public Question StartQuestion { get; set; }
 
-        public int StartQuestionId { get; set; }
-
         public DateTime CreatedDate { get; set; } = DateTime.Now;
     }
 }

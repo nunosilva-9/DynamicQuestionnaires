@@ -1,4 +1,5 @@
-﻿using DynamicQuestionnaires.Application.DTO.Questionnaire;
+﻿using DynamicQuestionnaires.Application.DTO.Question;
+using DynamicQuestionnaires.Application.DTO.Questionnaire;
 using DynamicQuestionnaires.Infrastruture.Entities;
 using DynamicQuestionnaires.Infrastruture.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -32,21 +33,39 @@ namespace DynamicQuestionnaires.Application.Controllers
                 {
                     Description = model.question.Description
                 }
-        };
+            };
 
 
-            foreach (string ans in model.question.Answers)
-            {
-                Answer answer = new Answer
-                {
-                    Description = ans
-                };
-                questionnaire.StartQuestion.Answers.Add(answer);
-            }
+            questionnaire.StartQuestion.Answers = CreateAnswers(model.question.Answers);
 
             await _questionnaireService.Create(questionnaire);
 
             return CreatedAtAction("GetById", new { idQuestionnaire = questionnaire.Id }, questionnaire);
+        }
+
+        private List<Answer> CreateAnswers(List<InAnswerDTO> answersModel)
+        {
+            List<Answer> answers = new List<Answer>();
+            foreach (InAnswerDTO ans in answersModel)
+            {
+                Answer answer = new Answer
+                {
+                    Description = ans.Description,
+                };
+
+                if(ans.Question != null)
+                {
+                    answer.Question = new Question()
+                    {
+                        Description = ans.Question.Description
+                    };
+
+                    answer.Question.Answers = CreateAnswers(ans.Question.Answers);
+                }
+                answers.Add(answer);
+            }
+
+            return answers;
         }
 
         [HttpGet("{idQuestionnaire}")]
@@ -62,6 +81,14 @@ namespace DynamicQuestionnaires.Application.Controllers
             IEnumerable<Questionnaire> questionnaires = await _questionnaireService.GetAll();
             return Ok(questionnaires);
         }
+
+        [HttpDelete("{idQuestionnaire}")]
+        public async Task<IActionResult> Delete(int idQuestionnaire)
+        {
+            IEnumerable<Questionnaire> questionnaires = await _questionnaireService.GetAll();
+            return Ok(questionnaires);
+        }
+
 
     }
 }

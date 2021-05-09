@@ -17,5 +17,6 @@ namespace DynamicQuestionnaires.Infrastruture.Interfaces
 
         Task<IEnumerable<Questionnaire>> GetAll();
 
+
     }
 }

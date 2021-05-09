@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace DynamicQuestionnaires.Application.DTO.Question
 {
-    public class InQuestionDTO
+    public class InAnswerDTO
     {
         [Required]
         public string Description { get; set; }
 
-        [Required]
-        public List<InAnswerDTO> Answers { get; set; }
+        public InQuestionDTO Question { get; set; }
     }
 }
